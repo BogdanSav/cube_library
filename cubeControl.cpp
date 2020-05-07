@@ -8,6 +8,9 @@
 #define wheel_r_2 19
 #define wheel_l_1 32
 #define wheel_l_2 33
+#define Trig 22
+#define Echo 23
+
 LedMatrix ledMatrix(NUMBER_OF_DEVICES, CS_PIN);
 
 cubeControl::cubeControl()
@@ -81,16 +84,22 @@ void cubeControl::stop()
     digitalWrite(wheel_l_1, LOW);
     digitalWrite(wheel_l_2, LOW);
 }
-void cubeControl::_delay(int time)
+void cubeControl::sensorsInit()
 {
-
-    unsigned int lastTick = 0;
-    while (true)
+    pinMode(Trig, OUTPUT);
+    pinMode(Echo, INPUT);
+}
+int cubeControl::hc_sr04()
+{
+    
+    if (millis() - lastTick > 500)
     {
-        if (millis() - lastTick >= time)
-        {
-            lastTick = millis();
-            continue;
-        }
+        lastTick = millis();
+        digitalWrite(Trig, HIGH);
+        delayMicroseconds(10);            
+        digitalWrite(Trig, LOW);           
+        impulseTime = pulseIn(Echo, HIGH); 
+        distance_sm = impulseTime / 58;    
+        return distance_sm;    
     }
 }

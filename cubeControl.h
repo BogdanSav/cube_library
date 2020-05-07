@@ -5,10 +5,9 @@
 class cubeControl
 {
 private:
-    int x;
-    int y;
-    int number_of_dev;
-    int cs_Pin;
+    unsigned int impulseTime = 0;
+    unsigned int distance_sm = 0;
+    unsigned int lastTick = 0;
 
 public:
     //constructor
@@ -66,9 +65,14 @@ public:
     void stop();
 
     /*
-        delay based on internal timer
+        initializate sensors 
     */
-    void _delay(int time);
+    void sensorsInit();
+
+    /*
+        hc_sr04 ultrasonic sensor
+    */
+    int hc_sr04();
 };
 
-#endif 
+#endif
